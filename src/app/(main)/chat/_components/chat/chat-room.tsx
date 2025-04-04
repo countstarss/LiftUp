@@ -201,7 +201,6 @@ export function ChatRoom({
         )}
 
         <MessageInput
-          onSend={handleSend}
           newMessage={newMessage}
           setNewMessage={setNewMessage}
           onHandleSend={() => handleSend(newMessage)}

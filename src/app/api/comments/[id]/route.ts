@@ -1,15 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { comments } from '@/lib/data/comments';
 import { posts } from '@/lib/data/posts';
 import { getCurrentUser, hasPermission } from '@/lib/data/auth';
 
 // MARK: 获取单个评论详情
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
 ) {
   try {
-    const id = params.id;
+    const id = request.nextUrl.searchParams.get('id');
     const comment = comments.find(comment => comment.id === id);
     
     if (!comment) {
@@ -58,11 +57,10 @@ export async function GET(
 
 // MARK: 更新评论
 export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
 ) {
   try {
-    const id = params.id;
+    const id = request.nextUrl.searchParams.get('id');
     const commentIndex = comments.findIndex(comment => comment.id === id);
     
     if (commentIndex === -1) {
@@ -127,11 +125,10 @@ export async function PUT(
 
 // MARK: 删除评论
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
 ) {
   try {
-    const id = params.id;
+    const id = request.nextUrl.searchParams.get('id');
     const commentIndex = comments.findIndex(comment => comment.id === id);
     
     if (commentIndex === -1) {

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { posts } from '@/lib/data/posts';
 import { actions } from '@/lib/data/actions';
-import { getCurrentUser, hasPermission } from '@/lib/data/auth';
+import { getCurrentUser } from '@/lib/data/auth';
 
 // MARK: 获取Posts列表，支持筛选
 export async function GET(request: Request) {

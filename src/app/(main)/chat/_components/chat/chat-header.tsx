@@ -2,7 +2,7 @@
 
 import { Hash, Users, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Channel } from "@/types/convex/channel";
+import { Channel } from "@/lib/types/convex/channel";
 import { cn } from "@/lib/utils";
 
 interface ChatHeaderProps {

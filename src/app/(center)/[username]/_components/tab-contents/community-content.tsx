@@ -3,12 +3,28 @@ import { Plus } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 import PostActions from '../community/PostActions';
+import { Post, User, Comment } from '@prisma/client';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
+// 定义扩展的Post类型，包含关联数据
+type PostWithRelations = Post & {
+  owner?: User;
+  comments?: CommentWithUser[];
+  _count?: {
+    comments?: number;
+  };
+  // 用于媒体展示
+  media?: string[];
+};
+
+type CommentWithUser = Comment & {
+  owner?: User;
+};
 
 interface CommunityContentProps {
-  // You can define any props needed here
-  posts: any[];
-  handleEditPost: (post: any) => void;
-  setEditingPost: (post: any) => void;
+  posts: PostWithRelations[];
+  handleEditPost: (post: PostWithRelations) => void;
+  setEditingPost: (post: PostWithRelations | undefined) => void;
   setIsPostEditorOpen: (isOpen: boolean) => void;
 }
 
@@ -39,9 +55,20 @@ const CommunityContent = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {posts.map((post, index) => (
-          <div key={index} className="bg-card p-4 rounded-lg shadow-sm">
+          <div key={post.id || index} className="bg-card p-4 rounded-lg shadow-sm">
             <div className="flex justify-between items-start">
-              <h3 className="font-medium">{post.title}</h3>
+              <div className="flex items-center gap-2">
+                <Avatar className="w-8 h-8">
+                  <AvatarImage src={post.owner?.avatarUrl || ''} alt={post.owner?.username || 'User'} />
+                  <AvatarFallback>{post.owner?.username?.charAt(0) || 'U'}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <h3 className="font-medium">{post.owner?.username || 'Unknown User'}</h3>
+                  <p className="text-xs text-muted-foreground">
+                    {new Date(post.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
               <Button
                 variant="ghost"
                 size="sm"
@@ -50,35 +77,31 @@ const CommunityContent = ({
                 Edit
               </Button>
             </div>
-            <p className="text-sm text-muted-foreground mt-2">{post.content}</p>
+            
+            <p className="text-sm mt-4">{post.content}</p>
+            
             {post.media && post.media.length > 0 && (
-              <div className="mt-2 grid grid-cols-2 gap-2">
-                {post.media.map((url: string, index: number) => (
-                  <div key={index} className="aspect-video relative rounded-lg overflow-hidden">
-                    {url.match(/\.(jpg|jpeg|png|gif)$/i) ? (
-                      <Image
-                        src={url}
-                        alt="Post media"
-                        fill
-                        className="object-cover"
-                      />
-                    ) : (
-                      <video
-                        src={url}
-                        className="w-full h-full object-cover"
-                        controls
-                      />
-                    )}
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                {post.media.map((mediaUrl, idx) => (
+                  <div key={idx} className="relative aspect-square rounded-md overflow-hidden">
+                    <Image 
+                      src={mediaUrl} 
+                      alt={`Media ${idx + 1}`} 
+                      fill 
+                      className="object-cover"
+                    />
                   </div>
                 ))}
               </div>
             )}
-            <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
-              <span>{post.authorName}</span>
-              <span>•</span>
-              <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+            
+            <div className="mt-4">
+              <PostActions post={post} />
             </div>
-            <PostActions post={post} />
+            
+            <div className="mt-2 text-xs text-muted-foreground">
+              {post._count?.comments || 0} comments · {post.likes || 0} likes
+            </div>
           </div>
         ))}
       </div>

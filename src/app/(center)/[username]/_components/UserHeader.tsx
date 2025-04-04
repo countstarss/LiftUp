@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -9,6 +9,9 @@ interface UserHeaderProps {
 }
 
 export default function UserHeader({ coverImage, onCoverImageChange }: UserHeaderProps) {
+    // 将来可以使用 Image 组件替换 img 标签，以获得更好的图像优化
+    // 例如: <Image src={coverImage} alt="Cover" fill className="object-cover" />
+    
     return (
         <>
             {/* 头部区域 */}

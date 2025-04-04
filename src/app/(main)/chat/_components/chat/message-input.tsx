@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FileIcon, ImageIcon, Send, SquarePlus, VideoIcon } from "lucide-react";
@@ -8,8 +7,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { cn } from "@/lib/utils";
 
 interface MessageInputProps {
-    // You can define any props needed here
-    onSend: (content: string) => Promise<void>;
     newMessage: string;
     setNewMessage: (content: string) => void;
     onHandleSend: () => void;
@@ -17,7 +14,6 @@ interface MessageInputProps {
 }
 
 const MessageInput = ({ 
-    onSend,
     newMessage,
     setNewMessage,
     onHandleSend,

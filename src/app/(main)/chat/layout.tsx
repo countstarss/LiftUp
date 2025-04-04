@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery, useMutation } from "convex/react";
+import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useEffect, useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
@@ -32,12 +32,11 @@ const channels = [
 
 const Layout = ({ children }: LayoutProps) => {
   const { data: session } = useSession();
-  const [newMessage, setNewMessage] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const messages = useQuery(api.messages.list, { channelId: "public", limit: 100 });
-  const sendMessage = useMutation(api.messages.send);
+  // const sendMessage = useMutation(api.messages.send);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -45,27 +44,20 @@ const Layout = ({ children }: LayoutProps) => {
     }
   }, [messages]);
 
-  const handleSend = async () => {
-    if (!session || !newMessage.trim()) return;
+  // const handleSend = async () => {
+  //   if (!session || !newMessage.trim()) return;
 
-    await sendMessage({
-      content: newMessage,
-      userId: session.user?.id || "",
-      userName: session.user?.name || "Anonymous",
-      userAvatar: session.user?.image || "https://avatar.vercel.sh/default",
-      type: "public",
-      channelId: "public",
-    });
+  //   await sendMessage({
+  //     content: newMessage,
+  //     userId: session.user?.id || "",
+  //     userName: session.user?.name || "Anonymous",
+  //     userAvatar: session.user?.image || "https://avatar.vercel.sh/default",
+  //     type: "public",
+  //     channelId: "public",
+  //   });
 
-    setNewMessage("");
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  };
+  //   setNewMessage("");
+  // };
 
   if (!session) {
     return (

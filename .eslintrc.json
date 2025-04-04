@@ -6,6 +6,7 @@
     "sourceType": "module"
   },
   "rules": {
+    "@typescript-eslint/no-empty-object-type": "off",
     "@typescript-eslint/no-var-requires": "off", // 允许使用 require
     "import/no-unresolved": "off", // 关闭未解析导入检查
     "no-console": "off", // 允许 console.log

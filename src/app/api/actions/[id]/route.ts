@@ -1,15 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { actions } from '@/lib/data/actions';
 
-// MARK: 获取单个行动建议详情
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
 ) {
   try {
-    const id = params.id;
+    const id = request.nextUrl.searchParams.get('id');
     const action = actions.find(action => action.id === id);
-    
+
     if (!action) {
       return NextResponse.json({
         message: '未找到指定的行动建议',
@@ -29,4 +27,4 @@ export async function GET(
       success: false,
     }, { status: 500 });
   }
-} 
+}

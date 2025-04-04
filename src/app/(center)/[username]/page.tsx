@@ -1,15 +1,9 @@
 import React from 'react';
 import ProfilePage from './_components/Profile';
-import { redirect } from 'next/navigation';
 
-interface PageProps {
-  params: {
-    username: string;
-  }
-}
 
-const Page = async ({ params }: PageProps) => {
-
+// ✅ 不需要 async
+const Page = () => {
   return (
     <div className="w-full h-screen overflow-y-auto">
       <ProfilePage />

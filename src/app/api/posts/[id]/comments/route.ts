@@ -1,15 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { posts } from '@/lib/data/posts';
 import { comments } from '@/lib/data/comments';
 import { getCurrentUser } from '@/lib/data/auth';
 
 // MARK: 获取Post的评论列表
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
 ) {
   try {
-    const postId = params.id;
+    const postId = request.nextUrl.searchParams.get('id');
     const post = posts.find(post => post.id === postId);
     
     if (!post) {
@@ -34,7 +33,7 @@ export async function GET(
     }
     
     // 获取该Post下的所有评论
-    let postComments = comments.filter(comment => comment.postId === postId);
+    const postComments = comments.filter(comment => comment.postId === postId);
     
     // 将评论按创建时间排序
     postComments.sort((a, b) => 
@@ -89,11 +88,10 @@ export async function GET(
 
 // MARK: 添加评论
 export async function POST(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
 ) {
   try {
-    const postId = params.id;
+    const postId = request.nextUrl.searchParams.get('id');
     const post = posts.find(post => post.id === postId);
     
     if (!post) {

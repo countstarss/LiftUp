@@ -1,14 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { posts, userLikes } from '@/lib/data/posts';
 import { getCurrentUser } from '@/lib/data/auth';
 
 // MARK: 给Post点赞或取消点赞
 export async function POST(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
 ) {
   try {
-    const id = params.id;
+    const id = request.nextUrl.searchParams.get('id');
     const postIndex = posts.findIndex(post => post.id === id);
     
     if (postIndex === -1) {
@@ -39,7 +38,7 @@ export async function POST(
       posts[postIndex].likes -= 1;
     } else {
       // 点赞
-      userLikes.push({ userId: currentUser.id, postId: id });
+      userLikes.push({ userId: currentUser.id || '', postId: id || '' });
       posts[postIndex].likes += 1;
     }
     
@@ -63,11 +62,10 @@ export async function POST(
 
 // MARK: 检查用户是否已点赞
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
 ) {
   try {
-    const id = params.id;
+    const id = request.nextUrl.searchParams.get('id');
     const post = posts.find(post => post.id === id);
     
     if (!post) {

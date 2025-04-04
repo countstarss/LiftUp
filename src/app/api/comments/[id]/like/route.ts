@@ -1,14 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { comments, commentLikes } from '@/lib/data/comments';
 import { getCurrentUser } from '@/lib/data/auth';
 
 // MARK: 给评论点赞或取消点赞
 export async function POST(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
 ) {
   try {
-    const id = params.id;
+    const id = request.nextUrl.searchParams.get('id');
     const commentIndex = comments.findIndex(comment => comment.id === id);
     
     if (commentIndex === -1) {
@@ -39,7 +38,7 @@ export async function POST(
       comments[commentIndex].likes -= 1;
     } else {
       // 点赞
-      commentLikes.push({ userId: currentUser.id, commentId: id });
+      commentLikes.push({ userId: currentUser.id || '', commentId: id || '' });
       comments[commentIndex].likes += 1;
     }
     
@@ -63,21 +62,19 @@ export async function POST(
 
 // MARK: 检查用户是否已点赞评论
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
 ) {
   try {
-    const id = params.id;
+    const id = request.nextUrl.searchParams.get('id');
+
     const comment = comments.find(comment => comment.id === id);
-    
     if (!comment) {
       return NextResponse.json({
         message: '未找到指定的评论',
         success: false,
       }, { status: 404 });
     }
-    
-    // 检查用户是否登录
+
     const currentUser = getCurrentUser();
     if (!currentUser) {
       return NextResponse.json({
@@ -85,26 +82,25 @@ export async function GET(
         success: false,
       }, { status: 401 });
     }
-    
-    // 检查用户是否已点赞
+
     const isLiked = commentLikes.some(
       like => like.userId === currentUser.id && like.commentId === id
     );
-    
+
     return NextResponse.json({
       message: '获取评论点赞状态成功',
       success: true,
       data: {
         commentId: id,
         likes: comment.likes,
-        isLiked
+        isLiked,
       }
     });
   } catch (error) {
     console.error('获取评论点赞状态失败:', error);
     return NextResponse.json({
-      message: '获取评论点赞状态时发生错误',
+      message: '获取评论点赞时发生错误',
       success: false,
     }, { status: 500 });
   }
-} 
+}

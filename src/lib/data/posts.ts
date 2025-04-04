@@ -120,4 +120,4 @@ export const userLikes: UserLike[] = [
   { userId: 'user-3', postId: '1' },
   { userId: 'user-3', postId: '2' },
   { userId: 'user-3', postId: '4' },
-]; 
+];

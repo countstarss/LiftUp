@@ -157,7 +157,7 @@ const ActionSuggestion = () => {
         {!error && !action && !loading && (
           <div className="h-full flex items-center justify-center border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg p-8">
             <p className="text-gray-500 dark:text-gray-400 text-center">
-              使用左侧筛选条件，点击"帮我选一个！"<br />
+              使用左侧筛选条件，点击&#34;帮我选一个！&#34;<br />
               获取个性化行动建议
             </p>
           </div>

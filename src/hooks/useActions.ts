@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Action } from '@/lib/data/actions';
 
-// MARK: 用于获取所有行动列表的hook
+// MARK: 所有行动列表
 export function useActions(filters?: {
   type?: string;
   location?: string;
@@ -35,7 +35,7 @@ export function useActions(filters?: {
   });
 }
 
-// MARK: 用于获取单个行动详情的hook
+// MARK: 单个行动详情
 export function useAction(id: string) {
   return useQuery<{
     success: boolean;
@@ -54,7 +54,7 @@ export function useAction(id: string) {
   });
 }
 
-// MARK: 用于获取随机Action的hook
+// MARK: 获取随机Action
 export function useRandomAction(filters?: {
   type?: string;
   location?: string;

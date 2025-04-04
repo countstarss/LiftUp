@@ -1,104 +1,91 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Category, Playlist, Post } from "@/types/profile";
 import PostEditor from './community/PostEditor';
-import { postService } from '@/app/server-actions/post.service';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from "sonner";
 import ThemeSlider from './home/ThemeSlider';
 import KanbanBoard from './kanban/KanbanBoard';
 import { mockThemes } from '@/data/mockData';
-import PlaylistContent from "./tab-contents/playlist-content";
 import AboutContent from "./tab-contents/about-content";
 import CommunityContent from "./tab-contents/community-content";
 import TabListScroll from "./community/TabListScroll";
+import { Post, User, Comment } from "@prisma/client";
+import { getPosts, createPost, updatePost } from '@/app/api/posts/service';
 
+// 定义扩展的Post类型，包含关联数据
+type PostWithRelations = Post & {
+  owner?: User;
+  comments?: CommentWithUser[];
+  _count?: {
+    comments?: number;
+  };
+  // 用于媒体展示
+  media?: string[];
+};
 
+type CommentWithUser = Comment & {
+  owner?: User;
+};
 
 const MainContent = () => {
 
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [newPlaylistTitle, setNewPlaylistTitle] = useState("");
-    const [newPlaylistDesc, setNewPlaylistDesc] = useState("");
-    // const [posts, setPosts] = useState<Post[]>([]);
     const [isPostEditorOpen, setIsPostEditorOpen] = useState(false);
-    const [editingPost, setEditingPost] = useState<Post | undefined>();
-    // const { toast } = useToast();
+    const [editingPost, setEditingPost] = useState<PostWithRelations | undefined>();
     const queryClient = useQueryClient();
 
-    const [themes, setThemes] = useState(mockThemes);
+    const [themes] = useState(mockThemes);
 
     // MARK: 获取帖子列表
-    const { data: posts = [], isLoading } = useQuery({
+    const { data: posts = [], isLoading } = useQuery<PostWithRelations[]>({
         queryKey: ['posts'],
-        queryFn: postService.getPosts,
+        queryFn: () => getPosts({
+            limit: 10,
+            offset: 0,
+            userId: '1',
+            actionId: '1',
+        }),
     });
+
+    // 使用isLoading状态
+    useEffect(() => {
+        if (isLoading) {
+            console.log("正在加载帖子数据...");
+        } else {
+            console.log(`已加载 ${posts.length} 条帖子`);
+        }
+    }, [isLoading, posts.length]);
 
     // MARK: 创建帖子
     const createPostMutation = useMutation({
-        mutationFn: postService.createPost,
+        mutationFn: createPost,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
-            toast.success('Post created successfully');
+            toast.success('帖子创建成功');
             setIsPostEditorOpen(false);
         },
-        onError: (error: any) => {
-            toast.error(error.message as string);
+        onError: (error: Error) => {
+            toast.error(error.message);
         },
     });
 
     // MARK: 更新帖子
     const updatePostMutation = useMutation({
-        mutationFn: (updatedPost: Partial<Post>) => {
-            if (!updatedPost._id) throw new Error('Post ID is required');
-            return postService.updatePost(updatedPost._id, updatedPost);
+        mutationFn: (updatedPost: Partial<PostWithRelations>) => {
+            if (!updatedPost.id) throw new Error('帖子ID是必需的');
+            return updatePost(updatedPost.id, updatedPost);
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['posts'] });
-            toast.success('Post updated successfully');
+            toast.success('帖子更新成功');
             setIsPostEditorOpen(false);
             setEditingPost(undefined);
         },
-        onError: (error: any) => {
-            toast.error(error.message as string);
+        onError: (error: Error) => {
+            toast.error(error.message);
         },
     });
 
-    // MARK: 创建新的 Playlist
-    const handleCreatePlaylist = () => {
-        const newPlaylist: Playlist = {
-            id: Date.now().toString(),
-            title: newPlaylistTitle,
-            description: newPlaylistDesc,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            items: []
-        };
-
-        // NOTE: 添加到对应分类中
-        setCategories(prev => [...prev, {
-            id: Date.now().toString(),
-            title: "New Category",
-            description: "Category description",
-            items: [newPlaylist]
-        }]);
-    };
-
-    // MARK: 渲染内容卡片
-    const renderContentCard = (item: Playlist | Post) => {
-        return (
-            <div className="bg-card p-4 rounded-lg shadow-sm">
-                <h3 className="font-medium">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">{item.description}</p>
-                <div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
-                    <span>By Author</span>
-                    <span>•</span>
-                    <span>{new Date(item.createdAt).toLocaleDateString()}</span>
-                </div>
-            </div>
-        );
-    };
 
     // MARK: 创建帖子
     const handleCreatePost = (newPost: Partial<Post>) => {
@@ -108,7 +95,7 @@ const MainContent = () => {
 
 
     // MARK: 编辑帖子
-    const handleEditPost = (post: Post) => {
+    const handleEditPost = (post: PostWithRelations) => {
         setEditingPost(post);
         setIsPostEditorOpen(true);
     };
@@ -116,10 +103,10 @@ const MainContent = () => {
 
 
     // MARK: 更新帖子
-    const handleUpdatePost = (updatedPost: Partial<Post>) => {
+    const handleUpdatePost = (updatedPost: Partial<PostWithRelations>) => {
         // 确保有 ID
-        if (!editingPost?._id) {
-            toast.error('Post ID is missing');
+        if (!editingPost?.id) {
+            toast.error('帖子ID缺失');
             return;
         }
 
@@ -127,7 +114,7 @@ const MainContent = () => {
         const mergedPost = {
             ...editingPost,
             ...updatedPost,
-            _id: editingPost._id,
+            id: editingPost.id,
         };
 
         updatePostMutation.mutate(mergedPost);
@@ -143,8 +130,6 @@ const MainContent = () => {
                     <TabListScroll>
                         <TabsList className="justify-start gap-4 w-max">
                             <TabsTrigger value="home">Home</TabsTrigger>
-                            <TabsTrigger value="videos">Videos</TabsTrigger>
-                            <TabsTrigger value="playlists">Playlists</TabsTrigger>
                             <TabsTrigger value="community">Community</TabsTrigger>
                             <TabsTrigger value="about">About</TabsTrigger>
                             <TabsTrigger value="kanban">Kanban</TabsTrigger>
@@ -168,25 +153,12 @@ const MainContent = () => {
                         }
                     </TabsContent>
 
-                    <TabsContent value="playlists" className="p-6 mb-[300px]"
-                    // MARK: Playlists
-                    >
-                        <PlaylistContent
-                            categories={categories}
-                            newPlaylistTitle={newPlaylistTitle}
-                            setNewPlaylistTitle={setNewPlaylistTitle}
-                            newPlaylistDesc={newPlaylistDesc}
-                            setNewPlaylistDesc={setNewPlaylistDesc}
-                            handleCreatePlaylist={handleCreatePlaylist}
-                            renderContentCard={renderContentCard}
-                        />
-                    </TabsContent>
 
                     <TabsContent value="community" className="p-6 mb-[300px]"
                     // MARK: Community
                     >
                         <CommunityContent
-                            posts={posts}
+                            posts={posts as PostWithRelations[]}
                             handleEditPost={handleEditPost}
                             setEditingPost={setEditingPost}
                             setIsPostEditorOpen={setIsPostEditorOpen}

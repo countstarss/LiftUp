@@ -11,19 +11,19 @@ export default function MediaPreview({ files, onRemove }: MediaPreviewProps) {
   console.log(`files:`, files);
   return (
     <div className="grid grid-cols-2 gap-2 mt-2">
-      {files.map((file, index) => (
+      {files.map((url, index) => (
         <div key={index} className="relative group">
           <div className="aspect-video relative rounded-lg overflow-hidden">
-            {file.startsWith('image/') ? (
+            {url.match(/\.(jpg|jpeg|png|gif)$/i) ? (
               <Image
-                src={file}
+                src={url}
                 alt="Preview"
                 fill
                 className="object-cover"
               />
             ) : (
               <video
-                src={file}
+                src={url}
                 className="w-full h-full object-cover"
                 controls
               />

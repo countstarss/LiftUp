@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { posts } from '@/lib/data/posts';
 import { actions } from '@/lib/data/actions';
 import { comments } from '@/lib/data/comments';
@@ -6,11 +6,10 @@ import { getCurrentUser, hasPermission } from '@/lib/data/auth';
 
 // MARK: 获取单个Post详情
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
 ) {
   try {
-    const id = params.id;
+    const id = request.nextUrl.searchParams.get('id');
     const post = posts.find(post => post.id === id);
     
     if (!post) {
@@ -63,11 +62,10 @@ export async function GET(
 
 // MARK: 更新Post
 export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
 ) {
   try {
-    const id = params.id;
+    const id = request.nextUrl.searchParams.get('id');
     const postIndex = posts.findIndex(post => post.id === id);
     
     if (postIndex === -1) {
@@ -153,11 +151,10 @@ export async function PUT(
 
 // MARK: 删除Post
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
 ) {
   try {
-    const id = params.id;
+    const id = request.nextUrl.searchParams.get('id');
     const postIndex = posts.findIndex(post => post.id === id);
     
     if (postIndex === -1) {

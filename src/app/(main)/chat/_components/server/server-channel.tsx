@@ -3,7 +3,7 @@
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
-import { Channel } from "@/types/convex/channel";
+import { Channel } from "@/lib/types/convex/channel";
 
 interface ServerChannelProps {
   channel: Channel;
@@ -14,7 +14,7 @@ interface ServerChannelProps {
   isPublic: boolean;
 }
 
-export function ServerChannel({ channel, icon: Icon, isOfficial, isPrivate, isGroup, isPublic }: ServerChannelProps) {
+export function ServerChannel({ channel, icon: Icon }: ServerChannelProps) {
   const router = useRouter();
   const pathname = usePathname();
   const isActive = pathname?.includes(channel._id && channel._id.toString());
