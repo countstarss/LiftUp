@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ImagePlus, X } from "lucide-react";
-import { EmojiPicker } from '@/components/ui/emoji-picker';
 import MediaPreview from './MediaPreview';
 import { toast } from 'sonner';
 import { UploadProgress } from './UploadProgress';
@@ -135,9 +134,6 @@ export default function PostEditor({ post, isOpen, onClose, onSave }: PostEditor
                 placeholder="Write your post..."
                 rows={5}
               />
-              <div className="absolute bottom-2 right-2">
-                <EmojiPicker onChange={handleEmojiSelect} />
-              </div>
             </div>
           </div>
 

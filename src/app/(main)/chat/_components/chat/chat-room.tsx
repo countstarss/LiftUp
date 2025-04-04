@@ -2,7 +2,6 @@
 
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useSession } from "next-auth/react";
 import { useState, useRef, useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -15,6 +14,7 @@ import { ChatHeader } from "./chat-header";
 import { Channel } from "@/lib/types/convex/channel";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
+import { useAuth } from "@/providers/SupabaseAuthProvider";
 
 interface ChatRoomProps {
   channelId: string;
@@ -27,7 +27,7 @@ export function ChatRoom({
   type,
   channel
 }: ChatRoomProps) {
-  const { data: session } = useSession();
+  const { session } = useAuth();
   const [newMessage, setNewMessage] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
@@ -70,8 +70,8 @@ export function ChatRoom({
     await sendMessage({
       content,
       userId: session.user?.id || "",
-      userName: session.user?.name || "Anonymous",
-      userAvatar: session.user?.image || "https://avatar.vercel.sh/default",
+      userName: session.user?.user_metadata.name || "Anonymous",
+      userAvatar: session.user?.user_metadata.avatar_url || "https://avatar.vercel.sh/luke",
       type: type as "public" | "private" | "group",
       channelId: channelId
     });

@@ -16,7 +16,7 @@ import { ChannelType } from "@/lib/types/convex/channel";
 import { Id } from "@/convex/_generated/dataModel";
 import ContextMenuWrapper from "@/components/ContextMenuWrapper";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useAuth } from "@/providers/SupabaseAuthProvider";
 
 interface LayoutProps {
   // You can define any props needed here
@@ -31,7 +31,7 @@ const channels = [
 ];
 
 const Layout = ({ children }: LayoutProps) => {
-  const { data: session } = useSession();
+  const { session } = useAuth();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -69,7 +69,7 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <ContextMenuWrapper>
-      <div className="h-[calc(100vh-58px)] flex">
+      <div className="h-screen flex w-screen overflow-hidden">
         {/* 
         MARK: 用户列表侧边栏
         */}

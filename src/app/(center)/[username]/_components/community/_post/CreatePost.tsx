@@ -6,10 +6,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { ImagePlus } from "lucide-react";
 import { toast } from 'sonner';
 import MediaPreview from '../MediaPreview';
-import { EmojiPicker } from '@/components/ui/emoji-picker';
 import { useCreatePost } from '@/hooks/usePosts';
 import { useMediaUpload } from '@/hooks/useMediaUpload';
-import { useSession } from 'next-auth/react';
+import { useAuth } from '@/providers/SupabaseAuthProvider';
 
 export default function CreatePost() {
   const [title, setTitle] = useState("");
@@ -18,16 +17,12 @@ export default function CreatePost() {
   const [mediaUrls, setMediaUrls] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [isCreatingPost, setIsCreatingPost] = useState(false);
-  // const [actionId, setActionId] = useState<string>(""); // 默认选择的Action ID
   const actionId = "1"; // 默认选择的Action ID
 
-  const { data: session } = useSession();
+  // 使用我们的认证hook替换直接调用
+  const { session, user, isLoading } = useAuth();
   const { uploadFile } = useMediaUpload();
   const { mutate: createPost } = useCreatePost();
-
-  const handleEmojiSelect = (emoji: string) => {
-    setContent(prev => prev + emoji);
-  };
 
   // MARK: 上传媒体文件
   const handleMediaUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +57,12 @@ export default function CreatePost() {
   // MARK: handleSubmit
   const handleSubmit = async () => {
     try {
-      if (!session?.user) {
+      if (isLoading) {
+        toast.info('正在检查登录状态，请稍候...');
+        return;
+      }
+
+      if (!session) {
         toast.error('请先登录');
         return;
       }
@@ -79,7 +79,8 @@ export default function CreatePost() {
       createPost({
         content,
         isPublic: true,
-        actionId
+        actionId,
+        // 可以添加用户ID
       }, {
         onSuccess: () => {
           // 重置表单
@@ -133,9 +134,6 @@ export default function CreatePost() {
             placeholder="写下你的帖子内容..."
             rows={5}
           />
-          <div className="absolute bottom-2 right-2">
-            <EmojiPicker onChange={handleEmojiSelect} />
-          </div>
         </div>
       </div>
 
@@ -170,10 +168,17 @@ export default function CreatePost() {
       <Button 
         onClick={handleSubmit} 
         className="w-full"
-        disabled={isUploading || !title.trim() || !content.trim() || isCreatingPost}
+        disabled={isUploading || !title.trim() || !content.trim() || isCreatingPost || isLoading}
       >
-        {isUploading ? '上传中...' : isCreatingPost ? '创建中...' : '创建帖子'}
+        {isLoading ? '正在检查登录状态...' : isUploading ? '上传中...' : isCreatingPost ? '创建中...' : '创建帖子'}
       </Button>
+      
+      {/* 显示登录状态 */}
+      <div className="text-xs text-muted-foreground mt-2">
+        {isLoading ? '正在检查登录状态...' : (
+          session ? `已登录: ${user?.email}` : '未登录'
+        )}
+      </div>
     </div>
   );
 } 

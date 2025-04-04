@@ -2,7 +2,7 @@
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatMessage } from "./chat-message";
-import { useSession } from "next-auth/react";
+import { useAuth } from "@/providers/SupabaseAuthProvider";
 
 const messages = [
   {
@@ -41,7 +41,7 @@ const messages = [
 
 export function ChatMessageList() {
 
-  const { data: session } = useSession();
+  const { session } = useAuth();
   if (!session) return null;
   
   return (

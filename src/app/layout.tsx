@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from 'sonner';
 import { AppProviders } from '@/providers/AppProviders';
 import BackToTop from '@/components/BackToTop';
-import SessionProviderWrapper from '@/components/SessionProviderWrapper';
+import InitialSessionProvider from './InitialSessionProvider';
 
 export const metadata: Metadata = {
   title: 'Dao Mandarin',
@@ -20,13 +20,13 @@ export default function RootLayout({
       <body
         className={`antialiased bg-gray-100 dark:bg-black flex flex-col min-h-screen`}
       >
-        <SessionProviderWrapper>
-        <AppProviders>
-          {children}
-          <Toaster position='top-right' />
-          <BackToTop />
-        </AppProviders>
-        </SessionProviderWrapper>
+        <InitialSessionProvider>
+          <AppProviders>
+            {children}
+            <Toaster position='top-right' />
+            <BackToTop />
+          </AppProviders>
+        </InitialSessionProvider>
       </body>
     </html>
   );
