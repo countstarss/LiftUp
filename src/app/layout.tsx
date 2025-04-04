@@ -6,8 +6,8 @@ import BackToTop from '@/components/BackToTop';
 import InitialSessionProvider from './InitialSessionProvider';
 
 export const metadata: Metadata = {
-  title: 'Dao Mandarin',
-  description: 'A modern Chinese learning platform',
+  title: 'LiftUp',
+  description: 'A platform to help you pick something joyful to do',
 };
 
 export default function RootLayout({
