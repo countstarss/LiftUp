@@ -1,0 +1,166 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "@typescript-eslint/no-var-requires": "off", // 允许使用 require
+    "import/no-unresolved": "off", // 关闭未解析导入检查
+    "no-console": "off", // 允许 console.log
+    "react-hooks/exhaustive-deps": "off", // 关闭 hooks 依赖检查
+    "@typescript-eslint/no-unused-vars": "warn", // 仅警告未使用的变量
+    "import/extensions": "off", // 关闭导入扩展名检查
+    "no-undef": "off", // 关闭未定义变量检查
+    "react/self-closing-comp": "warn", // 仅警告自闭合组件
+    "react/jsx-no-useless-fragment": "off", // 允许无意义的 Fragment
+    "react/jsx-closing-tag-location": "off", // 关闭 JSX 关闭标签位置检查
+    "react/jsx-indent": "off", // 关闭 JSX 缩进检查
+    "react/jsx-indent-props": "off", // 关闭 JSX 属性缩进检查
+    "react/jsx-uses-react": "off", // 关闭 React 变量使用检查
+    "react/react-in-jsx-scope": "off", // 关闭 React 必须在 JSX 作用域内的检查
+    "react/jsx-props-no-spreading": "off", // 允许 JSX 属性展开
+    "react/jsx-max-props-per-line": "off", // 允许每行多个 JSX 属性
+    "jsx-a11y/click-events-have-key-events": "off", // 关闭无障碍键盘事件检查
+    "jsx-a11y/no-static-element-interactions": "off", // 允许静态元素交互
+    "react/jsx-one-expression-per-line": "off", // 允许多行 JSX 表达式
+    "react/destructuring-assignment": "off", // 关闭解构赋值强制
+    "import/prefer-default-export": "off", // 关闭默认导出强制
+    "jsx-a11y/heading-has-content": "off", // 允许空标题
+    "react/function-component-definition": "off", // 允许不同形式的函数组件定义
+    "jsx-a11y/no-noninteractive-element-interactions": "off", // 允许非交互元素交互
+    "react/jsx-filename-extension": "off", // 允许 .js, .jsx, .tsx 文件中的 JSX
+    "func-names": "off", // 允许匿名函数
+    "no-param-reassign": "off", // 允许修改函数参数
+    "linebreak-style": "off", // 允许不同的换行符
+    "function-paren-newline": "off", // 关闭函数参数换行检查
+    "max-len": "off", // 关闭最大行长度检查
+    "import/no-extraneous-dependencies": "off", // 关闭额外依赖检查
+    "no-await-in-loop": "off", // 允许循环中使用 await
+    "class-methods-use-this": "off", // 允许类方法不使用 this
+    "object-curly-newline": "off", // 关闭对象大括号换行检查
+    "no-restricted-syntax": "off", // 允许所有 JavaScript 语法
+    "quotes": "off", // 关闭引号风格检查
+    "no-underscore-dangle": "off", // 允许以下划线开头的变量
+    "jsx-quotes": "off", // 允许单双引号混用
+    "array-callback-return": "off", // 允许数组回调函数不返回值
+    "react/require-default-props": "off", // 关闭默认 Props 要求
+    "@next/next/no-img-element": "off", // 允许使用 <img> 标签
+    "@typescript-eslint/no-explicit-any": "off" // 允许使用 any 类型
+  },
+  "overrides": [
+    {
+      "files": ["src/lib/**/*.ts", "src/lib/**/*.tsx"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off" // 允许库文件使用 any
+      }
+    }
+  ]
+}
+
+// {
+//   "parser": "@typescript-eslint/parser", // 使用 TypeScript ESLint 解析器
+//   "plugins": ["@typescript-eslint"], // 使用 TypeScript ESLint 插件
+//   "extends": [
+//     "next/core-web-vitals", // 扩展 Next.js 核心 Web Vitals 规则
+//     "plugin:@typescript-eslint/recommended" // 使用 TypeScript 推荐的 ESLint 规则
+//   ],
+//   "parserOptions": {
+//     "sourceType": "module" // 允许使用 ES 模块语法
+//   },
+//   "rules": {
+//     "@typescript-eslint/no-var-requires": "off", // 允许使用 require 语法
+//     "import/no-unresolved": "off", // 关闭未解析 import 的错误
+//     "no-console": [
+//       "error", // 禁止使用 console.log，允许特定日志方法
+//       {
+//         "allow": ["warn", "error", "info", "debug"]
+//       }
+//     ],
+//     "react-hooks/exhaustive-deps": "off", // 关闭 React Hooks 依赖项检查
+//     "@typescript-eslint/no-unused-vars": [
+//       "error", // 禁止未使用的变量
+//       {
+//         "args": "all", // 所有参数都必须使用
+//         "argsIgnorePattern": "^_", // 允许以下划线开头的参数不使用
+//         "caughtErrors": "all", // 捕获的错误参数必须使用
+//         "caughtErrorsIgnorePattern": "^_", // 允许以下划线开头的错误参数不使用
+//         "destructuredArrayIgnorePattern": "^_", // 允许解构数组中的未使用变量
+//         "varsIgnorePattern": "^_", // 允许以下划线开头的变量未使用
+//         "ignoreRestSiblings": true // 允许对象解构时忽略其余属性
+//       }
+//     ],
+//     "import/extensions": [
+//       0, // 关闭 import 语句中扩展名的检查
+//       "ignorePackages",
+//       {
+//         "js": "never",
+//         "jsx": "never",
+//         "ts": "never",
+//         "tsx": "never"
+//       }
+//     ],
+//     "no-undef": "off", // 关闭未定义变量的检查（TypeScript 已处理）
+//     "react/self-closing-comp": [
+//       "error", // 强制使用自闭合标签
+//       {
+//         "component": true,
+//         "html": true
+//       }
+//     ],
+//     "react/jsx-no-useless-fragment": 0, // 允许无意义的 React 片段 <></>
+//     "react/jsx-closing-tag-location": ["error", "line-aligned"], // 强制 JSX 结束标签对齐
+//     "react/jsx-indent": "off", // 关闭 JSX 缩进检查
+//     "react/jsx-indent-props": ["error", 2], // JSX 属性缩进 2 空格
+//     "react/jsx-uses-react": "off", // 关闭 React 必须在 JSX 文件中 import 的规则（Next.js 14+ 无需手动导入）
+//     "react/react-in-jsx-scope": "off", // 关闭 React 必须在 JSX 中可见的检查
+//     "react/jsx-props-no-spreading": 0, // 允许 JSX 属性展开 {...props}
+//     "react/jsx-max-props-per-line": [
+//       "error", // 强制 JSX 每行最多 1 个属性
+//       {
+//         "maximum": 1
+//       }
+//     ],
+//     "jsx-a11y/click-events-have-key-events": 0, // 允许无键盘事件的点击事件
+//     "jsx-a11y/no-static-element-interactions": 0, // 允许静态元素具有交互行为
+//     "react/jsx-one-expression-per-line": 0, // 允许 JSX 每行多个表达式
+//     "react/destructuring-assignment": 0, // 允许不使用解构赋值
+//     "import/prefer-default-export": 0, // 允许单个导出的模块不使用默认导出
+//     "jsx-a11y/heading-has-content": 0, // 允许无内容的标题元素
+//     "react/function-component-definition": 0, // 允许多种函数组件的定义方式
+//     "jsx-a11y/no-noninteractive-element-interactions": 0, // 允许非交互元素绑定事件
+//     "react/jsx-filename-extension": [
+//       1,
+//       {
+//         "extensions": [".js", ".jsx", ".tsx"] // 允许 JSX 出现在 JS、JSX 和 TSX 文件中
+//       }
+//     ],
+//     "func-names": 0, // 允许匿名函数
+//     "no-param-reassign": 0, // 允许函数参数重新赋值
+//     "linebreak-style": "off", // 关闭换行符检查（兼容不同操作系统）
+//     "function-paren-newline": 0, // 允许函数参数不换行
+//     "max-len": 0, // 关闭最大行长度检查
+//     "import/no-extraneous-dependencies": 0, // 允许额外依赖项
+//     "no-await-in-loop": 0, // 允许在循环中使用 await
+//     "class-methods-use-this": 0, // 允许类方法不使用 this
+//     "object-curly-newline": 0, // 允许对象大括号换行
+//     "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"], // 禁止 LabeledStatement 和 WithStatement
+//     "quotes": 0, // 允许任意类型的引号
+//     "no-underscore-dangle": 0, // 允许以下划线开头或结尾的变量名
+//     "jsx-quotes": [1, "prefer-single"], // JSX 代码中推荐使用单引号
+//     "array-callback-return": 0, // 允许数组方法不显式 return
+//     "react/require-default-props": "off", // 关闭默认 props 要求
+//     "no-explicit-any": "off", // 允许使用 any 类型（TypeScript 规则）
+//     "@next/next/no-img-element": "off", // 允许使用 <img> 标签（不强制使用 next/image）
+//     "@typescript-eslint/no-explicit-any": "off" // 允许使用 any 类型（TypeScript ESLint 规则）
+//   },
+//   "overrides": [
+//     {
+//       "files": ["src/lib/**/*.ts", "src/lib/**/*.tsx"],
+//       "rules": {
+//         "@typescript-eslint/no-explicit-any": "off" // 在 src/lib 目录下允许使用 any 类型
+//       }
+//     }
+//   ]
+// }
