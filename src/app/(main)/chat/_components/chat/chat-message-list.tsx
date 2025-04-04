@@ -2,7 +2,7 @@
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatMessage } from "./chat-message";
-import { useLocalSession } from "@/providers/SessionProvider";
+import { useSession } from "next-auth/react";
 
 const messages = [
   {
@@ -41,7 +41,7 @@ const messages = [
 
 export function ChatMessageList() {
 
-  const { session } = useLocalSession();
+  const { data: session } = useSession();
   if (!session) return null;
   
   return (
@@ -51,7 +51,7 @@ export function ChatMessageList() {
           <ChatMessage
             key={message.id}
             message={message}
-            isOwn={message.userId === session.user.id}
+            isOwn={message.userId === session.user?.id}
             onUserClick={() => {}}
           />
         ))}

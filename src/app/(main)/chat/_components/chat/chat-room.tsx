@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useLocalSession } from "@/providers/SessionProvider";
+import { useSession } from "next-auth/react";
 import { useState, useRef, useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -12,7 +12,7 @@ import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } 
 import MessageInput from "./message-input";
 import { cn } from "@/lib/utils";
 import { ChatHeader } from "./chat-header";
-import { Channel } from "@/types/convex/channel";
+import { Channel } from "@/lib/types/convex/channel";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 
@@ -27,7 +27,7 @@ export function ChatRoom({
   type,
   channel
 }: ChatRoomProps) {
-  const { session } = useLocalSession();
+  const { data: session } = useSession();
   const [newMessage, setNewMessage] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
@@ -69,9 +69,9 @@ export function ChatRoom({
 
     await sendMessage({
       content,
-      userId: session.user.id || "",
-      userName: session.user.name || "Anonymous",
-      userAvatar: session.user.image || "https://avatar.vercel.sh/default",
+      userId: session.user?.id || "",
+      userName: session.user?.name || "Anonymous",
+      userAvatar: session.user?.image || "https://avatar.vercel.sh/default",
       type: type as "public" | "private" | "group",
       channelId: channelId
     });
@@ -128,10 +128,10 @@ export function ChatRoom({
               key={message._id}
               className={cn(
                 "flex items-start gap-2 w-full",
-                message.userId === session.user.id ? "justify-end" : "justify-start"
+                message.userId === session.user?.id ? "justify-end" : "justify-start"
               )}
             >
-              {message.userId !== session.user.id && (
+              {message.userId !== session.user?.id && (
                 <Avatar>
                   <AvatarImage src={message.userAvatar} />
                   <AvatarFallback>
@@ -142,11 +142,11 @@ export function ChatRoom({
 
               <div className={cn(
                 "flex flex-col max-w-[70%]",
-                message.userId === session.user.id ? "items-end" : "items-start"
+                message.userId === session.user?.id ? "items-end" : "items-start"
               )}>
                 <div className={cn(
                   "flex items-center gap-2",
-                  message.userId === session.user.id ? "flex-row-reverse" : "flex-row"
+                  message.userId === session.user?.id ? "flex-row-reverse" : "flex-row"
                 )}>
                   <span className="text-sm font-medium">{message.userName}</span>
                   <span className="text-xs text-muted-foreground">
@@ -161,7 +161,7 @@ export function ChatRoom({
                     <div className={cn(
                       "mt-1 rounded-lg p-2 break-words",
                       "max-w-full w-fit",
-                      message.userId === session.user.id
+                      message.userId === session.user?.id
                         ? "bg-primary text-primary-foreground"
                         : "bg-muted"
                     )}>
@@ -177,7 +177,7 @@ export function ChatRoom({
                 </ContextMenu>
               </div>
 
-              {message.userId === session.user.id && (
+              {message.userId === session.user?.id && (
                 <Avatar>
                   <AvatarImage src={message.userAvatar} />
                   <AvatarFallback>
