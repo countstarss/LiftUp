@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Mail, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabase";
 
 interface GmailAuthButtonProps {
   className?: string;
@@ -32,7 +33,8 @@ export default function GmailAuthButton({ className }: GmailAuthButtonProps) {
     }
   }, [GOOGLE_CLIENT_ID]);
 
-  const handleGmailAuth = () => {
+  const handleGmailAuth = async () => {
+    setIsLoading(true);
     // if (!GOOGLE_CLIENT_ID) {
     //   setError("Missing Google Client ID configuration");
     //   return;
@@ -82,7 +84,23 @@ export default function GmailAuthButton({ className }: GmailAuthButtonProps) {
     //   setError("Failed to initiate Google authorization");
     //   setIsLoading(false);
     // }
-    toast.success("Gmail authorization successful");
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+      if (error) {
+        throw error;
+      }
+      toast.success("Gmail authorization successful");
+    } catch (err) {
+      console.error("Error starting Gmail authorization:", err);
+      setError("Failed to initiate Google authorization");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

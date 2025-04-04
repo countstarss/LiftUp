@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { ChatRoom } from "./_components/chat/chat-room";
 
 export default function Square() {

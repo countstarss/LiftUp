@@ -56,9 +56,6 @@ export default function PostEditor({ post, isOpen, onClose, onSave }: PostEditor
     }
   }, [post]);
 
-  const handleEmojiSelect = (emoji: string) => {
-    setContent(prev => prev + emoji);
-  };
 
   const handleMediaUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

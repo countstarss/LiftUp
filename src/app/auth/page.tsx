@@ -37,9 +37,9 @@ export default function AuthPage() {
         <div className="max-w-md w-full mx-auto">
           <div className="mb-8 text-center">
             <h1 className="text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-              WizMail
+              LiftUp
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">智能邮件管理平台</p>
+            <p className="text-gray-600 dark:text-gray-400">让心灵放松，找回人生方向</p>
           </div>
 
           {error && (
@@ -67,35 +67,35 @@ export default function AuthPage() {
       <div className="hidden lg:block lg:w-1/2 relative bg-gradient-to-br from-blue-600 to-purple-700">
         <div className="absolute inset-0 flex items-center justify-center p-8">
           <div className="text-white max-w-lg">
-            <h2 className="text-4xl font-bold mb-6">智能邮件管理平台</h2>
+            <h2 className="text-4xl font-bold mb-6">心灵释放，寻找方向</h2>
             <p className="text-xl opacity-90 mb-8">
-              使用AI驱动的功能和协作工具优化您的邮件工作流程
+              通过科学的心理辅导和个性化指导，帮助您缓解压力，找回人生方向
             </p>
 
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div className="flex items-start space-x-2">
                 <CheckCircle2 className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
-                <span>Gmail 集成与自动分类</span>
+                <span>专业减压冥想指导</span>
               </div>
               <div className="flex items-start space-x-2">
                 <CheckCircle2 className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
-                <span>智能邮件分析与摘要</span>
+                <span>个性化心理舒缓方案</span>
               </div>
               <div className="flex items-start space-x-2">
                 <CheckCircle2 className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
-                <span>团队协作与共享邮箱</span>
+                <span>生活目标规划指导</span>
               </div>
               <div className="flex items-start space-x-2">
                 <CheckCircle2 className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
-                <span>自动化电子邮件营销</span>
+                <span>情绪管理与压力缓解</span>
               </div>
               <div className="flex items-start space-x-2">
                 <CheckCircle2 className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
-                <span>跨平台访问与移动支持</span>
+                <span>社区支持与经验分享</span>
               </div>
               <div className="flex items-start space-x-2">
                 <CheckCircle2 className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
-                <span>企业级安全与加密</span>
+                <span>科学的方向感重建</span>
               </div>
             </div>
           </div>

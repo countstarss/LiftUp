@@ -44,21 +44,6 @@ const Layout = ({ children }: LayoutProps) => {
     }
   }, [messages]);
 
-  // const handleSend = async () => {
-  //   if (!session || !newMessage.trim()) return;
-
-  //   await sendMessage({
-  //     content: newMessage,
-  //     userId: session.user?.id || "",
-  //     userName: session.user?.name || "Anonymous",
-  //     userAvatar: session.user?.image || "https://avatar.vercel.sh/default",
-  //     type: "public",
-  //     channelId: "public",
-  //   });
-
-  //   setNewMessage("");
-  // };
-
   if (!session) {
     return (
       <div className="flex items-center justify-center h-[80vh]">

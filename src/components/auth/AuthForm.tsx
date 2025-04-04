@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Mail, Lock, Loader2 } from "lucide-react";
 import GoogleAuthButton from "./GoogleAuthButton";
+import Link from "next/link";
 
 export default function AuthForm() {
   const [email, setEmail] = useState("");
@@ -42,7 +43,7 @@ export default function AuthForm() {
           setError("验证邮件已发送到您的邮箱，请查收并验证");
         }
       } else {
-        const { error, data } = await supabase.auth.signInWithPassword({
+        const { error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
@@ -121,7 +122,7 @@ export default function AuthForm() {
               <Label htmlFor="password">密码</Label>
               {mode === "signin" && (
                 <Button variant="link" className="p-0 h-auto text-xs" asChild>
-                  <a href="/auth/forgot-password">忘记密码?</a>
+                  <Link href="/auth/forgot-password">忘记密码?</Link>
                 </Button>
               )}
             </div>
