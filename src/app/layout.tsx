@@ -4,6 +4,7 @@ import { Toaster } from 'sonner';
 import { AppProviders } from '@/providers/AppProviders';
 import BackToTop from '@/components/BackToTop';
 import SessionProvider from '../providers/session-provider';
+import BottomBar from '@/components/layout/bottom-bar';
 
 export const metadata: Metadata = {
   title: 'LiftUp',
@@ -22,9 +23,12 @@ export default function RootLayout({
       >
         <SessionProvider>
           <AppProviders>
+          <div className='flex overflow-y-auto'>
+            <BottomBar />
             {children}
             <Toaster position='top-right' />
             <BackToTop />
+          </div>
           </AppProviders>
         </SessionProvider>
       </body>

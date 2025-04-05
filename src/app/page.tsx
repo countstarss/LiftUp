@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-100 pb-24">
       {/* Navigation */}
       <header className="container mx-auto p-4 flex justify-between items-center">
         <div className="flex items-center gap-2">

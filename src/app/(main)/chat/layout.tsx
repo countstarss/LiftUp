@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Users, Hash, Plus, Mic, Video, ChevronRight } from "lucide-react";
+import { Users, Hash, Plus, Mic, Video, ChevronRight, ChevronLeft } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
@@ -16,7 +16,9 @@ import { ChannelType } from "@/lib/types/convex/channel";
 import { Id } from "@/convex/_generated/dataModel";
 import ContextMenuWrapper from "@/components/ContextMenuWrapper";
 import Link from "next/link";
-import { useAuth } from "@/providers/SupabaseAuthProvider";
+import { useAuth } from "@/providers/supabase-auth-provider";
+import { DialogTitle } from "@/components/ui/dialog";
+import { useRouter } from "next/navigation";
 
 interface LayoutProps {
   // You can define any props needed here
@@ -33,6 +35,7 @@ const channels = [
 const Layout = ({ children }: LayoutProps) => {
   const { session } = useAuth();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const messages = useQuery(api.messages.list, { channelId: "public", limit: 100 });
@@ -54,7 +57,7 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <ContextMenuWrapper>
-      <div className="h-screen flex w-screen overflow-hidden">
+      <div className="h-screen flex w-full overflow-hidden">
         {/* 
         MARK: 用户列表侧边栏
         */}
@@ -148,13 +151,26 @@ const Layout = ({ children }: LayoutProps) => {
           {/* 顶部栏 */}
           <div className="h-14 border-b flex items-center p-4 justify-between">
             <div className="flex items-center gap-2">
-              <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="md:hidden -ml-2"
+                  onClick={() => router.push('/')}
+                >
+                  <ChevronLeft className="h-6 w-6" />
+                </Button>
+              <h1 className="font-semibold">Chat Square</h1>
+            </div>
+            <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="md:hidden -ml-2">
-                    <ChevronRight className="h-6 w-6" />
-                  </Button>
+                <Button variant="ghost" size="icon" className="md:hidden">
+                  <Users className="h-6 w-6" />
+                </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="p-0 w-60">
+                <SheetContent side="right" className="p-0 w-60">
+                  <DialogTitle>
+                    <h2 className="sr-only">Chat Square</h2>
+                  </DialogTitle>
                   <div
                     className="flex flex-col h-full"
                   // MARK: -Mobile Channel 
@@ -232,11 +248,7 @@ const Layout = ({ children }: LayoutProps) => {
                   </div>
                 </SheetContent>
               </Sheet>
-              <h1 className="font-semibold">Chat Square</h1>
-            </div>
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Users className="h-6 w-6" />
-            </Button>
+            
           </div>
 
           {/* 

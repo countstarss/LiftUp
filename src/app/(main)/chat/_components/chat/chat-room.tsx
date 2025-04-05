@@ -14,7 +14,7 @@ import { ChatHeader } from "./chat-header";
 import { Channel } from "@/lib/types/convex/channel";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
-import { useAuth } from "@/providers/SupabaseAuthProvider";
+import { useAuth } from "@/providers/supabase-auth-provider";
 
 interface ChatRoomProps {
   channelId: string;
@@ -120,7 +120,7 @@ export function ChatRoom({
             />
           )
         }
-        <div className="space-y-4 max-w-7xl w-full mx-auto h-fit p-4 mb-32"
+        <div className="space-y-4 max-w-7xl w-full mx-auto h-fit p-4 mb-24"
           //MARK: 消息列表
         >
           {messages?.messages?.map((message: any) => (
@@ -204,7 +204,7 @@ export function ChatRoom({
           newMessage={newMessage}
           setNewMessage={setNewMessage}
           onHandleSend={() => handleSend(newMessage)}
-          className='absolute bottom-12'
+          className='absolute'
         />
       </ScrollArea>
 

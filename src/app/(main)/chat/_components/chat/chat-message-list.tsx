@@ -2,7 +2,7 @@
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChatMessage } from "./chat-message";
-import { useAuth } from "@/providers/SupabaseAuthProvider";
+import { useAuth } from "@/providers/supabase-auth-provider";
 
 const messages = [
   {
