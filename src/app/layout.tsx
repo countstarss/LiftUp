@@ -4,6 +4,7 @@ import { Toaster } from 'sonner';
 import { AppProviders } from '@/providers/AppProviders';
 import BackToTop from '@/components/BackToTop';
 import SessionProvider from '../providers/session-provider';
+import { BottomBarProvider } from '@/context/bottom-bar-context';
 import BottomBar from '@/components/layout/bottom-bar';
 
 export const metadata: Metadata = {
@@ -23,12 +24,14 @@ export default function RootLayout({
       >
         <SessionProvider>
           <AppProviders>
-          <div className='flex overflow-y-auto'>
-            <BottomBar />
-            {children}
-            <Toaster position='top-right' />
-            <BackToTop />
-          </div>
+            <BottomBarProvider>
+              <div className='flex overflow-y-auto'>
+                {children}
+                <BottomBar />
+                <Toaster position='top-right' />
+                <BackToTop />
+              </div>
+            </BottomBarProvider>
           </AppProviders>
         </SessionProvider>
       </body>

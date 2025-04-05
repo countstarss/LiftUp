@@ -27,7 +27,7 @@ const MessageInput = ({
                 <div className="">
                     <DropdownMenu>
                         <DropdownMenuTrigger>
-                            <SquarePlus strokeWidth={1.25} className="h-10 w-10 cursor-pointer text-muted-foreground" />
+                            <SquarePlus strokeWidth={1.25} className="h-10 w-10 cursor-pointer text-muted-foreground rounded-xl" />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             <DropdownMenuItem>

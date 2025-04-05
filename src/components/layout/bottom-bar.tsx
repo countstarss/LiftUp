@@ -5,12 +5,16 @@ import React from 'react'
 import Link from 'next/link'
 import { menuOptions2 } from '@/lib/data/constant'
 import clsx from 'clsx'
-import { MailIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import { useBottomBar } from '@/context/bottom-bar-context'
 
 const BottomBar = () => {
   const pathName = usePathname()
+  const { isHiddenOnRoute } = useBottomBar()
+
+  // 如果当前路由设置为隐藏底部栏，则不渲染
+  if (isHiddenOnRoute(pathName)) {
+    return null
+  }
 
   return (
     <div className="rounded-t-3xl md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-gray-300 dark:border-white/20 bg-background">

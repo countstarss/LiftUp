@@ -152,9 +152,9 @@ const Layout = ({ children }: LayoutProps) => {
           <div className="h-14 border-b flex items-center p-4 justify-between">
             <div className="flex items-center gap-2">
                 <Button 
-                  variant="ghost" 
+                  variant="outline" 
                   size="icon" 
-                  className="md:hidden -ml-2"
+                  className="md:hidden -ml-2 rounded-xl"
                   onClick={() => router.push('/')}
                 >
                   <ChevronLeft className="h-6 w-6" />

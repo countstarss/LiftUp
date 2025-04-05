@@ -2,6 +2,8 @@ import React from "react";
 // import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ChevronLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface UserHeaderProps {
     coverImage: string;
@@ -9,6 +11,8 @@ interface UserHeaderProps {
 }
 
 export default function UserHeader({ coverImage, onCoverImageChange }: UserHeaderProps) {
+    const router = useRouter();
+    
     // 将来可以使用 Image 组件替换 img 标签，以获得更好的图像优化
     // 例如: <Image src={coverImage} alt="Cover" fill className="object-cover" />
     
@@ -16,6 +20,18 @@ export default function UserHeader({ coverImage, onCoverImageChange }: UserHeade
         <>
             {/* 头部区域 */}
             <div className="relative">
+                {/* 返回按钮 */}
+                <div className="absolute top-8 left-4 z-20">
+                    <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="md:hidden -ml-2 rounded-xl"
+                    onClick={() => router.push('/')}
+                    >
+                    <ChevronLeft className="h-6 w-6" />
+                    </Button>
+                </div>
+                
                 {/* 封面图片容器 */}
                 <div className="relative h-40 sm:h-48 md:h-64 w-full mt-4">
                     <img

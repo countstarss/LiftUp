@@ -115,7 +115,7 @@ MARK: - menuOptions
 export const menuOptions2 = [
     { name: 'Logs', Component: Logs, href: '/logs' },
     { name: 'Chat', Component: Chat, href: '/chat' },
-    { name: 'Mail', Component: Envelope, href: '/mail' },
+    { name: 'Space', Component: Envelope, href: '/space' },
     { name: 'CRM', Component: CRM, href: '/crm' },
 ]
 
