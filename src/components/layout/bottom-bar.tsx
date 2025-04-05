@@ -18,7 +18,7 @@ const BottomBar = () => {
 
   return (
     <div className="rounded-t-3xl md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-gray-300 dark:border-white/20 bg-background">
-      <nav className="px-2 py-2 flex justify-around items-center">
+      <nav className="px-2 py-2 flex justify-around items-center select-none">
         <Link
           href="/"
           className={clsx(

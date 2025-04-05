@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 导入过渡动画 */
+@import '../styles/page-transitions.css';
+
 @layer base {
   .light {
     --background: 0 0% 100%;
@@ -58,6 +61,7 @@
     --chart-4: 280 65% 70%;
     --chart-5: 340 75% 65%;
   }
+
   /* Eye-Friendly Mode */
   .eye-friendly {
     --background: 120 100% 96%;
@@ -121,6 +125,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -131,9 +136,12 @@
 }
 
 @keyframes bounce-sequence {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-10px);
   }

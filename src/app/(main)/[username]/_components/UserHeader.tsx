@@ -4,14 +4,21 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { usePageTransition } from "@/components/transitions/page-transition";
 
 interface UserHeaderProps {
     coverImage: string;
     onCoverImageChange: (url: string) => void;
+    animationDuration?: number;
 }
 
-export default function UserHeader({ coverImage, onCoverImageChange }: UserHeaderProps) {
+export default function UserHeader({ 
+    coverImage, 
+    onCoverImageChange, 
+    animationDuration = 500 
+}: UserHeaderProps) {
     const router = useRouter();
+    const { goBack, isMobile } = usePageTransition();
     
     // 将来可以使用 Image 组件替换 img 标签，以获得更好的图像优化
     // 例如: <Image src={coverImage} alt="Cover" fill className="object-cover" />
@@ -21,14 +28,15 @@ export default function UserHeader({ coverImage, onCoverImageChange }: UserHeade
             {/* 头部区域 */}
             <div className="relative">
                 {/* 返回按钮 */}
-                <div className="absolute top-8 left-4 z-20">
+                <div className="fixed top-4 left-4 z-20">
                     <Button 
-                    variant="outline" 
-                    size="icon" 
-                    className="md:hidden -ml-2 rounded-xl"
-                    onClick={() => router.push('/')}
+                        variant="outline" 
+                        size="icon" 
+                        className="md:hidden rounded-xl backdrop-blur-sm shadow-md"
+                        onClick={() => goBack(animationDuration)}
+                        aria-label="返回"
                     >
-                    <ChevronLeft className="h-6 w-6" />
+                    <ChevronLeft className="h-5 w-5" />
                     </Button>
                 </div>
                 

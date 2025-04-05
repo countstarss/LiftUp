@@ -238,7 +238,7 @@ export function ChatRoom({
     }
     
     return(
-      <div className="space-y-4 max-w-7xl w-full h-full mx-auto p-4 mb-24">
+      <div className="space-y-4 w-full h-full md:h-[calc(100vh-70px)] mx-auto p-4 pb-44">
           {displayMessages.map((message: any) => (
             <div
               key={message._id}
@@ -315,7 +315,8 @@ export function ChatRoom({
   }
 
   return (
-    <div className="flex flex-col h-full justify-center overflow-y-auto relative">
+    // 这里pb控制input的位置，目前不需要
+    <div className="w-full flex flex-col h-full justify-center overflow-y-auto relative ">
       <ScrollArea 
         ref={scrollRef} 
         className="flex rounded-none h-full"
@@ -330,7 +331,7 @@ export function ChatRoom({
           )
         }
         
-        <div className="h-full w-screen">
+        <div className="h-full w-full">
           {messageList()}
         </div>
         
@@ -351,10 +352,9 @@ export function ChatRoom({
           newMessage={newMessage}
           setNewMessage={setNewMessage}
           onHandleSend={() => handleSend(newMessage)}
-          className='absolute'
+          className='absolute -pb-1 md:pb-14'
         />
       </ScrollArea>
-
     </div>
   );
 } 

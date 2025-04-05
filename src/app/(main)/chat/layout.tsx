@@ -18,7 +18,7 @@ import ContextMenuWrapper from "@/components/ContextMenuWrapper";
 import Link from "next/link";
 import { useAuth } from "@/providers/supabase-auth-provider";
 import { DialogTitle } from "@/components/ui/dialog";
-import { useRouter } from "next/navigation";
+import { usePageTransition } from "@/components/transitions/page-transition";
 
 interface LayoutProps {
   // You can define any props needed here
@@ -35,11 +35,11 @@ const channels = [
 const Layout = ({ children }: LayoutProps) => {
   const { session } = useAuth();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
+  const { goBack, testAnimation } = usePageTransition();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [duration, setDuration] = useState(400); // 默认动画持续时间
 
   const messages = useQuery(api.messages.list, { channelId: "public", limit: 100 });
-  // const sendMessage = useMutation(api.messages.send);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -154,108 +154,112 @@ const Layout = ({ children }: LayoutProps) => {
                 <Button 
                   variant="outline" 
                   size="icon" 
-                  className="md:hidden -ml-2 rounded-xl"
-                  onClick={() => router.push('/')}
+                  className="md:hidden rounded-xl bg-background/60 backdrop-blur-sm shadow-md"
+                  onClick={() => goBack(duration)}
                 >
-                  <ChevronLeft className="h-6 w-6" />
+                  <ChevronLeft className="h-5 w-5" />
                 </Button>
               <h1 className="font-semibold">Chat Square</h1>
             </div>
-            <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-                <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
-                  <Users className="h-6 w-6" />
-                </Button>
-                </SheetTrigger>
-                <SheetContent side="right" className="p-0 w-60">
-                  <DialogTitle>
-                    <h2 className="sr-only">Chat Square</h2>
-                  </DialogTitle>
-                  <div
-                    className="flex flex-col h-full"
-                  // MARK: -Mobile Channel 
-                  >
-                    <div className="mt-6">
-                      <div className="flex items-center justify-between p-4 border-b">
-                        <h2 className="font-semibold">Channels</h2>
-                      </div>
-                      <div className='p-2'>
-                        <Link href="/dashboard/chat"
-                          onClick={() => setIsSidebarOpen(false)}
-                        >
-                          <ServerChannel
-                            key={"/"}
-                            channel={{
-                              _id: "/" as Id<"channels">,
-                              name: "Public",
-                              type: "text",
-                              isOfficial: true,
-                              createdAt: new Date().getTime(),
-                            }}
-                            icon={Hash}
-                            isOfficial={true}
-                            isPrivate={false}
-                            isGroup={false}
-                            isPublic={true}
-                          />
-                        </Link>
-                        {channels.map((channel) => (
-                          <div
-                            key={channel.id}
+            <div className="flex items-center gap-2">
+              <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+                  <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="md:hidden">
+                    <Users className="h-6 w-6" />
+                  </Button>
+                  </SheetTrigger>
+                  <SheetContent side="right" className="p-0 w-60">
+                    <DialogTitle>
+                      <h2 className="sr-only">Chat Square</h2>
+                    </DialogTitle>
+                    <div
+                      className="flex flex-col h-full"
+                    // MARK: -Mobile Channel 
+                    >
+                      <div className="mt-6">
+                        <div className="flex items-center justify-between p-4 border-b">
+                          <h2 className="font-semibold">Channels</h2>
+                        </div>
+                        <div className='p-2'>
+                          <Link href="/dashboard/chat"
                             onClick={() => setIsSidebarOpen(false)}
                           >
                             <ServerChannel
-                              key={channel.id}
+                              key={"/"}
                               channel={{
-                                _id: channel.id as Id<"channels">,
-                                name: channel.name,
-                                type: channel.type as ChannelType,
+                                _id: "/" as Id<"channels">,
+                                name: "Public",
+                                type: "text",
                                 isOfficial: true,
                                 createdAt: new Date().getTime(),
                               }}
-                              icon={channel.type === "text" ? Hash : channel.type === "voice" ? Mic : Video}
+                              icon={Hash}
                               isOfficial={true}
                               isPrivate={false}
                               isGroup={false}
                               isPublic={true}
                             />
-                          </div>
-                        ))}
+                          </Link>
+                          {channels.map((channel) => (
+                            <div
+                              key={channel.id}
+                              onClick={() => setIsSidebarOpen(false)}
+                            >
+                              <ServerChannel
+                                key={channel.id}
+                                channel={{
+                                  _id: channel.id as Id<"channels">,
+                                  name: channel.name,
+                                  type: channel.type as ChannelType,
+                                  isOfficial: true,
+                                  createdAt: new Date().getTime(),
+                                }}
+                                icon={channel.type === "text" ? Hash : channel.type === "voice" ? Mic : Video}
+                                isOfficial={true}
+                                isPrivate={false}
+                                isGroup={false}
+                                isPublic={true}
+                              />
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                    <div className="p-4 border-b">
-                      <h2 className="font-semibold">Recent Chats</h2>
-                    </div>
-                    <ScrollArea className="flex-1"
-                    // MARK: -Mobile Chats
-                    >
-                      <div className="p-2 space-y-2">
-                        {Array.from({ length: 10 }).map((_, i) => (
-                          <div
-                            key={i}
-                            className="flex items-center gap-2 p-2 rounded-lg hover:bg-accent"
-                            onClick={() => setIsSidebarOpen(false)}
-                          >
-                            <Avatar className="h-8 w-8">
-                              <AvatarImage src={`https://avatar.vercel.sh/${i}`} />
-                              <AvatarFallback>U{i}</AvatarFallback>
-                            </Avatar>
-                            <span className="text-sm">用户 {i + 1}</span>
-                          </div>
-                        ))}
+                      <div className="p-4 border-b">
+                        <h2 className="font-semibold">Recent Chats</h2>
                       </div>
-                    </ScrollArea>
-                  </div>
-                </SheetContent>
+                      <ScrollArea className="flex-1"
+                      // MARK: -Mobile Chats
+                      >
+                        <div className="p-2 space-y-2">
+                          {Array.from({ length: 10 }).map((_, i) => (
+                            <div
+                              key={i}
+                              className="flex items-center gap-2 p-2 rounded-lg hover:bg-accent"
+                              onClick={() => setIsSidebarOpen(false)}
+                            >
+                              <Avatar className="h-8 w-8">
+                                <AvatarImage src={`https://avatar.vercel.sh/${i}`} />
+                                <AvatarFallback>U{i}</AvatarFallback>
+                              </Avatar>
+                              <span className="text-sm">用户 {i + 1}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </ScrollArea>
+                    </div>
+                  </SheetContent>
               </Sheet>
-            
+            </div>
           </div>
 
-          {/* 
-          MARK: -   消息列表
-          */}
-          {children}
+          {/* 内容区域 - 使用页面过渡包装 */}
+          <div className="flex-1 overflow-hidden page-transition-wrapper">
+            <div className="page-content">
+              {children}
+            </div>
+          </div>
         </Card>
+          
       </div>
     </ContextMenuWrapper>
   );
