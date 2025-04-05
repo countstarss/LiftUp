@@ -63,7 +63,7 @@ const Layout = ({ children }: LayoutProps) => {
         */}
         <Card className={cn(
           "hidden md:flex flex-col w-60 border-r rounded-none",
-          "dark:bg-zinc-900 bg-zinc-50"
+          "dark:bg-zinc-900 bg-zinc-50 select-none"
         )}>
           <div className="p-3 h-14 flex items-center border-b border-neutral-200 dark:border-neutral-800">
             <h2 className="font-semibold text-lg">Channels</h2>

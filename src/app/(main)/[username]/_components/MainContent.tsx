@@ -143,16 +143,6 @@ const MainContent = () => {
 
                 {/* 内容区域 */}
                 <div className="py-6 sticky top-[200px]">
-                    <TabsContent value="home" className="h-full "
-                    // MARK: Home
-                    >
-                        {
-                            themes.map((theme) => (
-                                <ThemeSlider key={theme.id} theme={theme} />
-                            ))
-                        }
-                    </TabsContent>
-
 
                     <TabsContent value="community" className="p-6 mb-[300px]"
                     // MARK: Community

@@ -24,7 +24,7 @@ const MenuOptions = ({
   return (
     <ContextMenuWrapper>
       <nav className={cn(
-        "sticky top-0 left-0 hidden w-[80px] min-w-[80px] max-w-[80px] dark:bg-black h-screen overflow-scroll justify-between md:flex items-center flex-col  gap-10 py-6 px-2 border-r-[1px] border-gray-300 dark:border-white/20 transition-all duration-300",
+        "sticky top-0 left-0 hidden w-[80px] min-w-[80px] max-w-[80px] dark:bg-black h-screen justify-between md:flex items-center flex-col  gap-10 py-6 px-2 border-r-[1px] border-gray-300 dark:border-white/20 transition-all duration-300 overflow-hidden",
         isCollapsed ? "w-[0px] min-w-[0px] max-w-[0px] px-0 opacity-0" : "w-[80px] min-w-[80px] max-w-[80px]"
       )}
       >
@@ -60,14 +60,6 @@ const MenuOptions = ({
                       </Link>
                     </li>
                   </TooltipTrigger>
-                  {/* // MARK: 悬浮显示路由地址
-                 */}
-                  <TooltipContent
-                    side="right"
-                    className="bg-black/10 backdrop-blur-xl z-[9999]"
-                  >
-                    <p>{menuItem.name}</p>
-                  </TooltipContent>
                 </Tooltip>
               </ul>
             ))}

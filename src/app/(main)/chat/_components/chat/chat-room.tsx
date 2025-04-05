@@ -238,7 +238,7 @@ export function ChatRoom({
     }
     
     return(
-      <div className="space-y-4 w-full h-full md:h-[calc(100vh-70px)] mx-auto p-4 pb-44">
+      <div className="space-y-4 w-full h-full md:h-[calc(100vh-70px)] mx-auto p-4 select-none">
           {displayMessages.map((message: any) => (
             <div
               key={message._id}
@@ -302,6 +302,7 @@ export function ChatRoom({
               )}
             </div>
           ))}
+          <div className="h-18" />
         </div>
     )
   }
@@ -319,7 +320,7 @@ export function ChatRoom({
     <div className="w-full flex flex-col h-full justify-center overflow-y-auto relative ">
       <ScrollArea 
         ref={scrollRef} 
-        className="flex rounded-none h-full"
+        className="flex rounded-none h-full mb-24"
         style={{ scrollBehavior: 'smooth' }}
       >
         {
@@ -331,15 +332,13 @@ export function ChatRoom({
           )
         }
         
-        <div className="h-full w-full">
-          {messageList()}
-        </div>
+        {messageList()}
         
         {/* 回到底部按钮 */}
         {showScrollButton && (
           <Button
             onClick={() => scrollToBottom('smooth')}
-            className="fixed bottom-24 right-8 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-200 z-50 bg-primary text-primary-foreground dark:bg-gray-200 dark:text-gray-800"
+            className="fixed bottom-24 md:bottom-36 right-8 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-200 z-50 bg-primary text-primary-foreground dark:bg-gray-200 dark:text-gray-800 hover:scale-105"
             size="icon"
             aria-label="滚动到底部"
             type="button"
@@ -352,7 +351,7 @@ export function ChatRoom({
           newMessage={newMessage}
           setNewMessage={setNewMessage}
           onHandleSend={() => handleSend(newMessage)}
-          className='absolute -pb-1 md:pb-14'
+          className=''
         />
       </ScrollArea>
     </div>

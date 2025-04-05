@@ -25,11 +25,10 @@ const MessageInput = ({
 
     return (
         <div className={cn("p-4 border bg-background mx-auto w-full h-20", 
-            "md:flex md:pb-16 ",
-            !isMobile ? "fixed bottom-11" : "fixed bottom-0",
+            !isMobile ? "fixed bottom-12 mb-2" : "fixed bottom-0 translate-y-2",
             className)}
         >
-            <div className="max-w-3xl mx-auto flex gap-2 w-full mb-4 h-full">
+            <div className="max-w-3xl mx-auto flex gap-2 w-full mb-3 h-full">
                 <div className="">
                     <DropdownMenu>
                         <DropdownMenuTrigger>
