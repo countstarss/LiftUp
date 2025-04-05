@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from 'sonner';
 import { AppProviders } from '@/providers/AppProviders';
 import BackToTop from '@/components/BackToTop';
-import InitialSessionProvider from './InitialSessionProvider';
+import SessionProvider from '../providers/session-provider';
 
 export const metadata: Metadata = {
   title: 'LiftUp',
@@ -20,13 +20,13 @@ export default function RootLayout({
       <body
         className={`antialiased bg-gray-100 dark:bg-black flex flex-col min-h-screen`}
       >
-        <InitialSessionProvider>
+        <SessionProvider>
           <AppProviders>
             {children}
             <Toaster position='top-right' />
             <BackToTop />
           </AppProviders>
-        </InitialSessionProvider>
+        </SessionProvider>
       </body>
     </html>
   );
