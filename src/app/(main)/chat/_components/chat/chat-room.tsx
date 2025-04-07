@@ -302,7 +302,8 @@ export function ChatRoom({
               )}
             </div>
           ))}
-          <div className="h-18" />
+          {/* 底部填充，防止最后的消息被输入框遮挡 */}
+          <div className="h-28 md:h-32" />
         </div>
     )
   }
