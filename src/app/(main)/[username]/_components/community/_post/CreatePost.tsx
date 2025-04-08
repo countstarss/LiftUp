@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import MediaPreview from '../MediaPreview';
 import { useCreatePost } from '@/hooks/usePosts';
 import { useMediaUpload } from '@/hooks/useMediaUpload';
-import { useAuth } from '@/providers/SupabaseAuthProvider';
+import { useAuth } from '@/providers/supabase-auth-provider';
 
 export default function CreatePost() {
   const [title, setTitle] = useState("");

@@ -5,7 +5,6 @@ import PostEditor from './community/PostEditor';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from "sonner";
 import KanbanBoard from './kanban/KanbanBoard';
-import { mockThemes } from '@/data/mockData';
 import AboutContent from "./tab-contents/about-content";
 import CommunityContent from "./tab-contents/community-content";
 import TabListScroll from "./community/TabListScroll";
@@ -32,8 +31,6 @@ const MainContent = () => {
     const [isPostEditorOpen, setIsPostEditorOpen] = useState(false);
     const [editingPost, setEditingPost] = useState<PostWithRelations | undefined>();
     const queryClient = useQueryClient();
-
-    const [themes] = useState(mockThemes);
 
     // MARK: 获取帖子列表
     const { data: posts = [], isLoading } = useQuery<PostWithRelations[]>({

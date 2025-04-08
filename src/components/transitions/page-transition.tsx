@@ -9,7 +9,7 @@ const DEFAULT_DURATION = 300;
 const PRELOAD_DELAY = 80;
 
 // 缓存记录上一个路径
-let cachedRoutes: string[] = [];
+const cachedRoutes: string[] = [];
 // 最多缓存路径数量
 const MAX_CACHED_ROUTES = 5;
 
