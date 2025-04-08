@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ChevronLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { usePageTransition } from "@/components/transitions/page-transition";
+import { BackButton, useAppTransition } from "@/components/transitions/app-transitions";
 
 interface UserHeaderProps {
     coverImage: string;
@@ -15,10 +14,19 @@ interface UserHeaderProps {
 export default function UserHeader({ 
     coverImage, 
     onCoverImageChange, 
-    animationDuration = 500 
 }: UserHeaderProps) {
-    const router = useRouter();
-    const { goBack, isMobile } = usePageTransition();
+    const { goBack } = useAppTransition();
+    
+    // 添加调试日志
+    useEffect(() => {
+        console.log('[UserHeader] Rendered user header component');
+    }, []);
+    
+    // 手动处理返回 - 用于测试
+    const handleManualBack = () => {
+        console.log('[UserHeader] Manually triggering goBack');
+        goBack();
+    };
     
     // 将来可以使用 Image 组件替换 img 标签，以获得更好的图像优化
     // 例如: <Image src={coverImage} alt="Cover" fill className="object-cover" />
@@ -27,16 +35,25 @@ export default function UserHeader({
         <>
             {/* 头部区域 */}
             <div className="relative">
-                {/* 返回按钮 */}
-                <div className="fixed top-4 left-4 z-20">
-                    <Button 
-                        variant="outline" 
-                        size="icon" 
-                        className="md:hidden rounded-xl backdrop-blur-sm shadow-md"
-                        onClick={() => goBack(animationDuration)}
-                        aria-label="返回"
+                {/* 返回按钮区域 - 添加两个按钮用于测试 */}
+                <div className="fixed top-4 left-4 z-20 flex gap-2">
+                    {/* 使用BackButton组件 */}
+                    <BackButton 
+                        className="md:hidden rounded-xl backdrop-blur-sm shadow-md p-2"
+                        aria-label="组件返回"
                     >
-                    <ChevronLeft className="h-5 w-5" />
+                        <ChevronLeft className="h-5 w-5" />
+                    </BackButton>
+                    
+                    {/* 使用手动方法 */}
+                    <Button 
+                        variant="outline"
+                        size="icon"
+                        onClick={handleManualBack}
+                        className="md:hidden rounded-xl backdrop-blur-sm shadow-md"
+                        aria-label="手动返回"
+                    >
+                        <ChevronLeft className="h-5 w-5 text-red-500" />
                     </Button>
                 </div>
                 

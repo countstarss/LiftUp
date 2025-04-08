@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Users, Hash, Plus, Mic, Video, ChevronRight, ChevronLeft } from "lucide-react";
+import { Users, Hash, Plus, Mic, Video, ChevronLeft } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
@@ -18,7 +18,7 @@ import ContextMenuWrapper from "@/components/ContextMenuWrapper";
 import Link from "next/link";
 import { useAuth } from "@/providers/supabase-auth-provider";
 import { DialogTitle } from "@/components/ui/dialog";
-import { usePageTransition } from "@/components/transitions/page-transition";
+import { BackButton } from "@/components/transitions/app-transitions";
 
 interface LayoutProps {
   // You can define any props needed here
@@ -35,9 +35,7 @@ const channels = [
 const Layout = ({ children }: LayoutProps) => {
   const { session } = useAuth();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { goBack, testAnimation } = usePageTransition();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [duration, setDuration] = useState(400); // 默认动画持续时间
 
   const messages = useQuery(api.messages.list, { channelId: "public", limit: 100 });
 
@@ -151,14 +149,11 @@ const Layout = ({ children }: LayoutProps) => {
           {/* 顶部栏 */}
           <div className="h-14 border-b flex items-center p-4 justify-between">
             <div className="flex items-center gap-2">
-                <Button 
-                  variant="outline" 
-                  size="icon" 
-                  className="md:hidden rounded-xl bg-background/60 backdrop-blur-sm shadow-md"
-                  onClick={() => goBack(duration)}
+                <BackButton 
+                  className="md:hidden rounded-xl bg-background/60 backdrop-blur-sm shadow-md p-2"
                 >
                   <ChevronLeft className="h-5 w-5" />
-                </Button>
+                </BackButton>
               <h1 className="font-semibold">Chat Square</h1>
             </div>
             <div className="flex items-center gap-2">
@@ -252,11 +247,9 @@ const Layout = ({ children }: LayoutProps) => {
             </div>
           </div>
 
-          {/* 内容区域 - 使用页面过渡包装 */}
-          <div className="flex-1 overflow-hidden page-transition-wrapper">
-            <div className="page-content">
-              {children}
-            </div>
+          {/* 内容区域 - 移除AppTransition包装 */}
+          <div className="flex-1 overflow-hidden">
+            {children}
           </div>
         </Card>
           

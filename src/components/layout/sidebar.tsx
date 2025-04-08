@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation'
 import React from 'react'
 import Link from 'next/link'
-import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip'
+import { TooltipProvider, Tooltip, TooltipTrigger } from '@/components/ui/tooltip'
 import { menuOptions2 } from '@/lib/data/constant'
 import clsx from 'clsx'
 import { Separator } from "@/components/ui/separator"

@@ -215,8 +215,6 @@ export function ChatRoom({
   }, [displayMessages]); // 添加displayMessages作为依赖项
 
   const messageList = () => {
-    const {session} = useAuth();
-    
     // 显示缓存加载状态或服务器加载状态
     if (isLoadingFromCache && displayMessages.length === 0) {
       return (

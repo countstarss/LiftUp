@@ -4,7 +4,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PostEditor from './community/PostEditor';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from "sonner";
-import ThemeSlider from './home/ThemeSlider';
 import KanbanBoard from './kanban/KanbanBoard';
 import { mockThemes } from '@/data/mockData';
 import AboutContent from "./tab-contents/about-content";

@@ -5,7 +5,7 @@ export default function Square() {
   //MARK: 获取频道信息
 
   return (
-    <div className="w-full flex flex-col h-[calc(100vh-24px)]">
+    <div className="w-full flex flex-col h-full overflow-hidden">
       <ChatRoom channelId="public" type="public"/>
     </div>
   );

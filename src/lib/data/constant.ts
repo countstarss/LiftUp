@@ -1,12 +1,8 @@
-import Category from '@/components/icons/category'
+
 import Chat from '@/components/icons/chat'
 import Logs from '@/components/icons/clipboard'
 import CRM from '@/components/icons/crm'
 import Envelope from '@/components/icons/envelope'
-import Home from '@/components/icons/home'
-import Payment from '@/components/icons/payment'
-import Settings from '@/components/icons/settings'
-import User from '@/components/icons/user'
 
 /*
 NOTE: 用于提供给滚动条

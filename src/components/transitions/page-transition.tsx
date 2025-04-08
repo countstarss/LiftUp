@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
 // 默认过渡动画持续时间（毫秒）
@@ -23,15 +23,6 @@ export function usePageTransition(defaultDuration = DEFAULT_DURATION) {
   const pathname = usePathname();
   const [isAnimating, setIsAnimating] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [navigationState, setNavigationState] = useState<{
-    active: boolean;
-    pendingPath: string | null;
-    animationStartTime: number | null;
-  }>({
-    active: false,
-    pendingPath: null,
-    animationStartTime: null
-  });
   
   // 缓存当前路径
   useEffect(() => {

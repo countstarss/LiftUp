@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { FileIcon, ImageIcon, Send, SquarePlus, VideoIcon } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 interface MessageInputProps {
     newMessage: string;
@@ -19,16 +20,33 @@ const MessageInput = ({
     onHandleSend,
     className
 }: MessageInputProps) => {
-
-    const isMobile = window.innerWidth < 768;
-
+    const [isMobile, setIsMobile] = useState(false);
+    
+    // 检测移动设备
+    useEffect(() => {
+        const checkIsMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        
+        // 初始检查
+        checkIsMobile();
+        
+        // 监听窗口大小变化
+        window.addEventListener('resize', checkIsMobile);
+        
+        return () => {
+            window.removeEventListener('resize', checkIsMobile);
+        };
+    }, []);
 
     return (
-        <div className={cn("p-4 border bg-background mx-auto w-full h-20", 
-            !isMobile ? "fixed bottom-12 mb-2" : "fixed bottom-0 translate-y-2",
-            className)}
-        >
-            <div className="max-w-3xl mx-auto flex gap-2 w-full mb-3 h-full">
+        <div className={cn(
+            "p-4 border bg-background w-full h-20 z-10", 
+            "fixed bottom-0 md:bottom-12",
+            isMobile ? "rounded-none" : "rounded-t-lg mx-auto max-w-3xl left-0 right-0 mb-2",
+            className
+        )}>
+            <div className="flex gap-2 w-full mb-3 h-full">
                 <div className="">
                     <DropdownMenu>
                         <DropdownMenuTrigger>

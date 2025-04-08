@@ -151,3 +151,45 @@
 :root {
   /* 可在此处添加全局变量 */
 }
+
+.page-transition {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* 确保framer-motion动画容器能够正确渲染 */
+div[data-framer-motion-transition-container="true"] {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 页面内容容器 */
+.page-content-container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+/* 优化移动端滚动体验 */
+@media (max-width: 768px) {
+
+  html,
+  body {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
+  }
+}

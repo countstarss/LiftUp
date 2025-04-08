@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -60,19 +59,19 @@ export default function Home() {
           </div>
 
           {/* Clouds */}
-          <div className="absolute left-10 top-20 bg-white/80 h-10 w-36 rounded-full"></div>
-          <div className="absolute right-20 top-40 bg-white/80 h-10 w-36 rounded-full"></div>
-          <div className="absolute left-1/4 bottom-20 bg-white/80 h-8 w-28 rounded-full"></div>
+          <div className="absolute left-10 top-20 bg-white/80 h-10 w-36 rounded-full" />
+          <div className="absolute right-20 top-40 bg-white/80 h-10 w-36 rounded-full" />
+          <div className="absolute left-1/4 bottom-20 bg-white/80 h-8 w-28 rounded-full" />
 
           {/* Circle background */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-white/60 rounded-full"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-white/60 rounded-full" />
 
           {/* Stylized trees/hills */}
           <div className="absolute left-5 bottom-0 w-24 h-36">
-            <div className="w-24 h-24 bg-blue-700/30 rounded-tl-full rounded-tr-full"></div>
+            <div className="w-24 h-24 bg-blue-700/30 rounded-tl-full rounded-tr-full" />
           </div>
           <div className="absolute right-5 bottom-0 w-24 h-36">
-            <div className="w-24 h-24 bg-blue-700/30 rounded-tl-full rounded-tr-full"></div>
+            <div className="w-24 h-24 bg-blue-700/30 rounded-tl-full rounded-tr-full" />
           </div>
 
           {/* Main text */}
