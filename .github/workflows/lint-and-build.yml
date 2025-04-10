@@ -1,0 +1,39 @@
+name: Lint and Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run build
+        run: npm run build
+
+  notify:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Feishu notification
+        uses: foxundermoon/feishu-action@v2
+        with:
+          url: ${{ secrets.FEISHU_BOT_WEBHOOK_URL }}
+          msg_type: text
+          content: |
+            text: |
+              GitHub Actions Build Status:
+              Repository: ${{ github.repository }}
+              Committer: ${{ github.actor }}
+              Commit Message: ${{ github.event.head_commit.message }}
+              Build Status: ${{ needs.build.result }}
